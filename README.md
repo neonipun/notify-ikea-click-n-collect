@@ -10,6 +10,19 @@ We still had to wait for when our closest store was open for Click & Collect. I 
 
 As soon as my closest store's open notification came in, which was luckily late night at a time I don't usually sleep, I jumped on my already open shopping cart and placed the order. It went thrugh and the next day I FINALLY got to pick up my sweet IKEA budget table :).
 
+## Usage
+First off, if you have a gmail account, you should _Allow less secure apps to be ON_ https://myaccount.google.com/lesssecureapps. You can turn this back off once you're done using this script. 
+
+Modify the ```ikea-stores-notification.py``` scripts variables with your email, password and the necessary emails and mobile number you wish to receive updates on.
+The ```msg.py``` has a ```carriers``` variable that you can change too if your carrier isn't there. 
+
+Once you set all the variables right, you can run the code and wait for a notification on when your closest store will open.
+
+**Needs Python 3 to run.** 
+**Required modules**:
+- requests
+- plyer
+  
 ## References
 This project's code was mixed up and referenced from places mentioned below.
 - https://ikea-status.dong.st/
