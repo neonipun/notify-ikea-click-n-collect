@@ -43,14 +43,19 @@ sender(stores_open, stores_open_msg, receivers_carriers)
 while True:
     stores_open_msg = ''
     stores_closed_msg = ''
-    r = requests.get('https://ikea-status.dong.st/latest.json')    
-    for store in r.json():
-        if ikea_stores[(store['country'], store['state'], store['name'])] and (store['last_open'] and store['last_open'] < store['last_closed']):
-            ikea_stores[(store['country'], store['state'], store['name'])] = False
-            stores_closed_msg += f"{store['country']}, {store['state']}, {store['name']}: CLOSED\n"
-        elif not ikea_stores[(store['country'], store['state'], store['name'])] and (store['last_open'] and store['last_open'] > store['last_closed']):
-            ikea_stores[(store['country'], store['state'], store['name'])] = True
-            stores_open_msg += f"{store['country']}, {store['state']}, {store['name']}: OPEN\n"
+
+    try:
+        r = requests.get('https://ikea-status.dong.st/latest.json')    
+        for store in r.json():
+            if ikea_stores[(store['country'], store['state'], store['name'])] and (store['last_open'] and store['last_open'] < store['last_closed']):
+                ikea_stores[(store['country'], store['state'], store['name'])] = False
+                stores_closed_msg += f"{store['country']}, {store['state']}, {store['name']}: CLOSED\n"
+            elif not ikea_stores[(store['country'], store['state'], store['name'])] and (store['last_open'] and store['last_open'] > store['last_closed']):
+                ikea_stores[(store['country'], store['state'], store['name'])] = True
+                stores_open_msg += f"{store['country']}, {store['state']}, {store['name']}: OPEN\n"
+    except Exception as e:
+        print("Exception:", e)
+        pass
     
     if stores_open_msg:
         sender(stores_open, stores_open_msg, receivers_carriers)
