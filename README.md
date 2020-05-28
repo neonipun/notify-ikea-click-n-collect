@@ -27,7 +27,7 @@ Once you set all the variables right, you can run the code and wait for a notifi
 
 ## Future Work
 - Make a CLI out of this? 
-- Add script for notifications on a specific or specific stores
+- Add script for notifications on a specific store or stores.
 - Refactor and increase modularity of code?
   
 ## References
