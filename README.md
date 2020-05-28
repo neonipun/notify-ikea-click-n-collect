@@ -8,7 +8,7 @@ Because of the COVID-19 quarantine all of IKEA's stores were closed, but they ha
 Bummed from the week long searches and wait, a little reddit deep dive couple of days ago since the initial commit of this project made me come across [this post](https://www.reddit.com/r/IKEA/comments/gpl3x0/ikea_click_collect_status_website/). That post had an [awesome website](https://ikea-status.dong.st/) that turned out to be a life saver! 
 We still had to wait for when our closest store was open for Click & Collect. I DID NOT want to wait anymore, even with the convenience of that website. So, ended up checking out how the site gets the information, looked around its source code, and eventually decided to make this project where I can get an email/sms/desktop notification when a particular store gets opened or closed. 
 
-As soon as my closest store's open notification came in, which was luckily late night at a time I don't usually sleep, I jumped on my already open shopping cart and placed the order. It went thrugh and the next day I FINALLY got to pick up my sweet IKEA budget table :).
+As soon as my closest store's open notification came in, which was luckily late night at a time I don't usually sleep, I jumped on my already open shopping cart and placed the order. It went through and the next day I FINALLY got to pick up my sweet IKEA budget table :).
 
 **Update**: https://ikea-status.dong.st/ now supports email notifcations! Additional updates on notifications will be added according to the developer.
 
