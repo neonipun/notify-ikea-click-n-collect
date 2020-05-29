@@ -26,7 +26,7 @@ class Message:
 
             with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
                 server.login(self.__email, self.__password)
-                server.sendmail(self.__email, to_recv, msg)
+                server.sendmail(self.__email, to_recv, msg.encode('utf-8'))
 
         except Exception as e:
             sys.exit('Exception: '+str(e))
