@@ -29,14 +29,14 @@ stores_open = Message(subject="IKEA STORES OPEN!", email=email, password=passwor
 stores_closed = Message(subject="IKEA STORES CLOSED!", email=email, password=password)
 
 ikea_stores = defaultdict(bool)
-r = requests.get('https://ikea-status.dong.st/latest.json')
-for store in r.json():
-    if store['last_open'] and store['last_open'] > store['last_closed']:
-        ikea_stores[(store['country'], store['state'], store['name'])] = True
+r = requests.get('https://api.ikea-status.dong.st/prod/locations')
+for store in r.json()['locations']:
+    if store['status'] == 'open':
+        ikea_stores[(store['countryCode'], store['subdivisionCode'], store['locationName'])] = True
 
 stores_open_msg = f'First notification from script about IKEA Stores availability ran at {time.strftime("%d-%b-%Y %H:%M:%S", time.localtime())} Local Time.\n'
-for country, state, name in ikea_stores.keys():
-    stores_open_msg += f'{country}, {state}, {name}: OPEN\n'
+for countryCode, subdivisionCode, locationName in ikea_stores.keys():
+    stores_open_msg += f'{countryCode}, {subdivisionCode}, {locationName}: OPEN\n'
 
 sender(stores_open, stores_open_msg, receivers_carriers)
 
@@ -45,14 +45,14 @@ while True:
     stores_closed_msg = ''
 
     try:
-        r = requests.get('https://ikea-status.dong.st/latest.json')    
-        for store in r.json():
-            if ikea_stores[(store['country'], store['state'], store['name'])] and (store['last_open'] and store['last_open'] < store['last_closed']):
-                ikea_stores[(store['country'], store['state'], store['name'])] = False
-                stores_closed_msg += f"{store['country']}, {store['state']}, {store['name']}: CLOSED\n"
-            elif not ikea_stores[(store['country'], store['state'], store['name'])] and (store['last_open'] and store['last_open'] > store['last_closed']):
-                ikea_stores[(store['country'], store['state'], store['name'])] = True
-                stores_open_msg += f"{store['country']}, {store['state']}, {store['name']}: OPEN\n"
+        r = requests.get('https://api.ikea-status.dong.st/prod/locations')    
+        for store in r.json()['locations']:
+            if ikea_stores[(store['countryCode'], store['subdivisionCode'], store['locationName'])] and (store['status'] == 'closed'):
+                ikea_stores[(store['countryCode'], store['subdivisionCode'], store['locationName'])] = False
+                stores_closed_msg += f"{store['countryCode']}, {store['subdivisionCode']}, {store['locationName']}: CLOSED\n"
+            elif not ikea_stores[(store['countryCode'], store['subdivisionCode'], store['locationName'])] and (store['status'] == 'open'):
+                ikea_stores[(store['countryCode'], store['subdivisionCode'], store['locationName'])] = True
+                stores_open_msg += f"{store['countryCode']}, {store['subdivisionCode']}, {store['locationName']}: OPEN\n"
     except Exception as e:
         print("Exception:", e)
         pass
