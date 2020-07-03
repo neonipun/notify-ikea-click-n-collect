@@ -15,18 +15,18 @@ def sender(messenger, message, receivers_carriers):
         elif sms:
             sms.send(to_recv=receiver, carrier=carrier, message=message)
         
+    # For Desktop notifications   
     if notification_flag:
-        notification.notify(title='IKEA Stores Notification!', message=message, app_icon='./bell.ico', timeout=30)
+        message = message.split('\n')
+        for msg in message:
+            notification.notify(title='IKEA Stores Notification!', message=msg, app_icon='./bell.ico', timeout=30)
 
 # DO NOT COMMIT FILES WITH CREDENTIALS. Modify variables below as necessary.
-email = ''
-password = ''
+email = 'EMAIL'
+password = 'PASSWORD'
 notification_flag = True
-
-if not notification_flag and not email and not password:
-    sys.exit('Neither of the SMS/Email/Desktop notifications are set.')
-
-receivers_carriers = [('000-000-0000', 'carrier'), ('0000000000', 'carrier'), ('email-ID', 'carrier')]
+# receivers_carriers = [('000-000-0000', 'carrier'), ('0000000000', 'carrier'), ('email-ID', 'carrier')]
+receivers_carriers = []
 
 stores_open = Message(subject="IKEA STORES OPEN!", email=email, password=password) if email and password else None
 stores_closed = Message(subject="IKEA STORES CLOSED!", email=email, password=password) if email and password else None
