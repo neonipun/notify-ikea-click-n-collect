@@ -6,27 +6,30 @@ import requests
 import sys 
 
 def sender(messenger, message, receivers_carriers):
-    # SMSs get Spam filtered for any mention of IKEA, Notification or Store with tmobile carries for some reason.
-    sms = Message(subject="Update Text/Test", email=email, password=password)
+    # SMS get Spam filtered for any mention of IKEA, Notification or Store
+    sms = Message(subject="Update Text/Test", email=email, password=password) if email and password else None
 
     for receiver, carrier in receivers_carriers:
-        if carrier in {'gmail'}:
+        if carrier in {'gmail'} and messenger:
             messenger.send(to_recv=receiver, carrier=carrier, message=message)
-            continue
-        sms.send(to_recv=receiver, carrier=carrier, message=message)
-
-    # For Desktop notifications   
+        elif sms:
+            sms.send(to_recv=receiver, carrier=carrier, message=message)
+        
     if notification_flag:
         notification.notify(title='IKEA Stores Notification!', message=message, app_icon='./bell.ico', timeout=30)
 
 # DO NOT COMMIT FILES WITH CREDENTIALS. Modify variables below as necessary.
-email = 'EMAIL'
-password = 'PASSWORD'
+email = ''
+password = ''
 notification_flag = True
+
+if not notification_flag and not email and not password:
+    sys.exit('Neither of the SMS/Email/Desktop notifications are set.')
+
 receivers_carriers = [('000-000-0000', 'carrier'), ('0000000000', 'carrier'), ('email-ID', 'carrier')]
 
-stores_open = Message(subject="IKEA STORES OPEN!", email=email, password=password)
-stores_closed = Message(subject="IKEA STORES CLOSED!", email=email, password=password)
+stores_open = Message(subject="IKEA STORES OPEN!", email=email, password=password) if email and password else None
+stores_closed = Message(subject="IKEA STORES CLOSED!", email=email, password=password) if email and password else None
 
 ikea_stores = defaultdict(bool)
 r = requests.get('https://api.ikea-status.dong.st/prod/locations')
